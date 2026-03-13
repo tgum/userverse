@@ -1,8 +1,8 @@
 ## Start
 yeah im a guy im talking bla bla
 [options] go to option tree
-[setvar] set variable
-[unsetvar] unset variable
+!var [setvar] set variable
+?var [unsetvar] unset variable
 [eatfrog] eat a frog
 
 ## eatfrog
@@ -11,8 +11,13 @@ you eat a frog bcuz ur stupiiiiiiiiiid
 
 ## setvar
 +var
+variable is true
+>Start
+
 ## unsetvar
 -var
+variable is false
+>Start
 
 ## options
 ?var >skooky

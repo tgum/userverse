@@ -28,19 +28,18 @@ skooky
 [Start] go bak
 `
 
-let variables = {}
+let dialog_variables = {}
 
-let rooms = {}
-let current_room = "Start"
+let dialog_rooms = {}
 
 function parse_rooms(dialog) {
-  rooms = {}
+  dialog_rooms = {}
   let current_room = ""
   let room_text = ""
   for (let line of dialog.split("\n")) {
     if (line.startsWith("##")) {
       if (current_room !== "") {
-        rooms[current_room] = room_text
+        dialog_rooms[current_room] = room_text
       }
       current_room = line.replace(/^##(\s+)?/, "")
       room_text = ""
@@ -49,7 +48,7 @@ function parse_rooms(dialog) {
     }
   }
   console.log("rooms")
-  rooms[current_room] = room_text
+  dialog_rooms[current_room] = room_text
 }
 
 function validvar(name) {
@@ -75,9 +74,9 @@ function parse_room(room) {
         let [_, varname, rest] = line.match(/^[\?\!]([\w\d\.\$]+) (.*)$/)
         let condition
         if (invert) {
-          condition = !variables[varname]
+          condition = !dialog_variables[varname]
         } else {
-          condition = !!variables[varname]
+          condition = !!dialog_variables[varname]
         }
         if (condition) {
           line = rest
@@ -94,13 +93,12 @@ function parse_room(room) {
       case "+":
         setvar = true
       case "-":
-        variables[line.slice(1)] = setvar
+        dialog_variables[line.slice(1)] = setvar
         break
       case ">":
         let jumproom = line.slice(1)
-        current_room = jumproom
         line_index = 0
-        lines = rooms[current_room].split("\n")
+        lines = dialog_rooms[jumproom].split("\n")
         break
       case "[":
         let [_, dest, text] = line.match(/^\[(.+)\] (.+)$/)

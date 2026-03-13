@@ -11,8 +11,8 @@ let Player = {
     for (let instance of worlds[world_name].instances) {
       let prop = instance.prop
       if (prop.hitbox[2] == 0 && prop.hitbox[3] == 0) continue
-      if (Player.x+32 >= instance.x+prop.hitbox[0] &&    // r1 right edge past r2 left
-          Player.x-32 <= instance.x+prop.hitbox[2] &&    // r1 left edge past r2 right
+      if (Player.x+16 >= instance.x+prop.hitbox[0] &&    // r1 right edge past r2 left
+          Player.x-16 <= instance.x+prop.hitbox[2] &&    // r1 left edge past r2 right
           Player.y    >= prop.hitbox[1]+instance.y &&    // r1 top edge past r2 bottom
           Player.y    <= prop.hitbox[3]+instance.y) {    // r1 bottom edge past r2 top
         console.log("collision")
@@ -26,7 +26,7 @@ let Player = {
     let textoutput = document.querySelector("#dialogtext")
     let optionsoutput = document.querySelector("#dialogoptions")
 
-    let {text, options} = parse_room(rooms[room])
+    let {text, options} = parse_room(dialog_rooms[room])
     textoutput.textContent = text
     optionsoutput.innerHTML = ""
     for (let option of options) {
