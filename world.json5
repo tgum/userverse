@@ -1,0 +1,18 @@
+{
+  props: {
+    "parasol": {path: "beach/parasol.png", offset: [28, 206]},
+    "fountain": {path: "fountain.png", offset: [107, 150], hitbox: [-100, -60, 105, 0]},
+    "stand1": {path: "stand1.png", offset: [60, 158], hitbox: [-60, -45, 60, 0]}
+  },
+  worlds: {
+    "overworld": {
+      backgrounds: {
+        "0,0": "overworld/0_0_town_square.png",
+      },
+      instances: [
+        {prop: "fountain", x: 325, y: 280},
+        {prop: "stand1", x: 70, y: 150},
+      ]
+    }
+  }
+}
