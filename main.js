@@ -36,7 +36,7 @@ function loop() {
         Player.y > sprite.y - (sprite.offset[1]) &&
         Player.x > sprite.x - sprite.offset[0] &&
         Player.x < sprite.x - sprite.offset[0] + sprite.sprite.width) {
-      mg.ctx.globalAlpha = 0.8;
+      // mg.ctx.globalAlpha = 0.8;
     }
     mg.draw_image(sprite.sprite, sprite.x - sprite.offset[0] - camera.x, sprite.y - sprite.offset[1] - camera.y)
     mg.ctx.globalAlpha = 1;

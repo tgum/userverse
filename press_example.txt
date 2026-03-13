@@ -1,0 +1,27 @@
+## Start
+yeah im a guy im talking bla bla
+[options] go to option tree
+[setvar] set variable
+[unsetvar] unset variable
+[eatfrog] eat a frog
+
+## eatfrog
+you eat a frog bcuz ur stupiiiiiiiiiid
+[End] ...
+
+## setvar
++var
+## unsetvar
+-var
+
+## options
+?var >skooky
+>next
+
+## next
+hiya
+[Start] go bak
+
+## skooky
+skooky
+[Start] go bak

@@ -17,7 +17,7 @@ class World {
 
     this.instances = []
     for (let instance of data.instances) {
-      this.instances.push({prop: props[instance.prop], x: instance.x, y: instance.y})
+      this.instances.push({prop: props[instance.prop], x: instance.x, y: instance.y, script: instance.script})
     }
     
   }

@@ -4,6 +4,7 @@ let Player = {
   width: 64,
   sprite: load_image("characters/player/player.png"),
   speed: 4,
+  inDialog: false,
 
   isColliding() {
     let colliding = false
@@ -20,30 +21,76 @@ let Player = {
     }
     return false
   },
+
+  showRoom(room) {
+    let textoutput = document.querySelector("#dialogtext")
+    let optionsoutput = document.querySelector("#dialogoptions")
+
+    let {text, options} = parse_room(rooms[room])
+    textoutput.textContent = text
+    optionsoutput.innerHTML = ""
+    for (let option of options) {
+      let button = document.createElement("button")
+      button.textContent = option.text
+      let dest = option.dest
+      button.onclick = () => {
+        if (option.dest.toLowerCase() == "end") {
+          Player.inDialog = false
+          textoutput.innerHTML = ""
+          optionsoutput.innerHTML = ""
+        } else {
+          Player.showRoom(dest)
+        }
+      }
+      optionsoutput.append(button)
+    }
+  },
   
   update: () => {
-    let moveX = 0
-    let moveY = 0
-    let speed = Player.speed
-    if (mg.isKeyDown("ShiftLeft")) {
-      speed *= 2
+    if (!Player.inDialog) {
+      let moveX = 0
+      let moveY = 0
+      let speed = Player.speed
+      if (mg.isKeyDown("ShiftLeft")) {
+        speed *= 2
+      }
+      if (mg.isKeyDown("KeyW")) {
+        moveY -= speed
+      }
+      if (mg.isKeyDown("KeyA")) {
+        moveX -= speed
+      }
+      if (mg.isKeyDown("KeyS")) {
+        moveY += speed
+      }
+      if (mg.isKeyDown("KeyD")) {
+        moveX += speed
+      }
+      if (mg.isKeyDown("KeyE")) {
+
+        let closestinst
+        let closestdist = Infinity
+        for (let instance of worlds[world_name].instances) {
+          if (instance.script !== "") {
+            let dist = (Player.x - instance.x)**2 + (Player.y-instance.y)**2
+            if (dist < closestdist) {
+              closestinst = instance
+              closestdist = dist
+            }
+          }
+        }
+        if (closestdist < 100**2) {
+          Player.inDialog = true
+          console.log(closestinst)
+          parse_rooms(closestinst.script)
+          Player.showRoom("Start")
+        }
+      }
+      Player.x += moveX
+      if (Player.isColliding()) Player.x -= moveX
+      Player.y += moveY
+      if (Player.isColliding()) Player.y -= moveY
     }
-    if (mg.isKeyDown("KeyW")) {
-      moveY -= speed
-    }
-    if (mg.isKeyDown("KeyA")) {
-      moveX -= speed
-    }
-    if (mg.isKeyDown("KeyS")) {
-      moveY += speed
-    }
-    if (mg.isKeyDown("KeyD")) {
-      moveX += speed
-    }
-    Player.x += moveX
-    if (Player.isColliding()) Player.x -= moveX
-    Player.y += moveY
-    if (Player.isColliding()) Player.y -= moveY
   },
   draw: () => {
     queue_sprite(Player.sprite, Player.x, Player.y, [32, 64])
