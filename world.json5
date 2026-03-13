@@ -4,7 +4,9 @@
     "fountain": {path: "fountain.png", offset: [107, 150], hitbox: [-100, -60, 105, 0]},
     "stand1": {path: "stand1.png", offset: [60, 158], hitbox: [-60, -45, 60, 0]},
     // bakery
-    "jims_bakery": {path: "jims_bakery/bakery.png", offset: [214, 390]},
+    "jim": {path: "jims_bakery/jim.png", offset: [45, 175], hitbox: [0, -8, 10, 0]},
+    "jims_bakery": {path: "jims_bakery/bakery.png", offset: [50, 390], hitbox: [0, -100, 366, 0]},
+    "jims_plant": {path: "jims_bakery/plant.png", offset: [16, 245], hitbox: [0, -16, 53, 0]},
   },
   worlds: {
     "overworld": {
@@ -12,6 +14,9 @@
         "0,0": "overworld/0_0_town_square.png",
       },
       instances: [
+        {prop: "jim", x: 820, y: 80},
+        {prop: "jims_bakery", x: 496, y: 70},
+        {prop: "jims_plant", x: 480, y: 72},
         {prop: "fountain", x: 325, y: 280},
         {prop: "stand1", x: 70, y: 150, script: '## Start\n?dontlike >bad\n>good\n## good\n"hi! im a shopkeeper!""\n[asksell] what do you sell\n[beatup] beat them up\n[End] bye\n## asksell\n"i sell various stuff but only to rich people not stupid frogs like you"\n[beatup] beat them up\n[End] leave\n## beatup\n?dontlike "WHY ARE STILL BEATING ME UP"\n!dontlike "what the fuck dude stop"\n+dontlike\n[beatup] continue beating\n[End] leave this poor soul alone\n## bad\n"please go away, i dont wanna pay for an ambulance"\n[beatup] beat them up some more\n[End] they provide nothing of value\n'},
       ],
