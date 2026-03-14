@@ -7,7 +7,7 @@ mg.canvas = document.createElement("canvas")
 mg.canvas.id = "canvas"
 mg.canvas.width = mg.width
 mg.canvas.height = mg.height
-document.getElementById("container").appendChild(mg.canvas)
+document.querySelector("#container").appendChild(mg.canvas)
 mg.ctx = canvas.getContext("2d")
 mg.ctx.imageSmoothingEnabled = false
 

@@ -18,7 +18,7 @@
         {prop: "jims.bakery", x: 496, y: 70},
         {prop: "jims.plant", x: 480, y: 72},
         {prop: "fountain", x: 325, y: 280},
-        {prop: "stand1", x: 70, y: 150, script: '## Start\n?stand1.dontlike >bad\n>good\n## good\n"hi! im a shopkeeper!""\n[asksell] what do you sell\n[beatup] beat them up\n[End] bye\n## asksell\n"i sell various stuff but only to rich people not stupid frogs like you"\n[beatup] beat them up\n[End] leave\n## beatup\n?stand1.dontlike "WHY ARE STILL BEATING ME UP"\n!stand1.dontlike "what the fuck dude stop"\n+stand1.dontlike\n[beatup] continue beating\n[End] leave this poor soul alone\n## bad\n"please go away, i dont wanna pay for an ambulance"\n[beatup] beat them up some more\n[End] they provide nothing of value\n'},
+        {prop: "stand1", x: 70, y: 150, script: '## Start\n?stand1.dontlike >bad\n>good\n## good\n"hi! im a shopkeeper!"\n[asksell] what do you sell\n[beatup] beat them up\n[End] bye\n## asksell\n"i sell various stuff but only to rich people not stupid frogs like you"\n[beatup] beat them up\n[End] leave\n## beatup\n?stand1.dontlike "WHY ARE STILL BEATING ME UP"\n!stand1.dontlike "what the fuck dude stop"\n+stand1.dontlike\n[beatup] continue beating\n[End] leave this poor soul alone\n## bad\n"please go away, i dont wanna pay for an ambulance"\n[beatup] beat them up some more\n[End] they provide nothing of value\n'},
       ],
     }
   }

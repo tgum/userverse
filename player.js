@@ -5,6 +5,7 @@ let Player = {
   sprite: load_image("characters/player/player.png"),
   speed: 4,
   inDialog: false,
+  skipDialog: false,
 
   isColliding() {
     let colliding = false
@@ -27,26 +28,46 @@ let Player = {
     let optionsoutput = document.querySelector("#dialogoptions")
 
     let {text, options} = parse_room(dialog_rooms[room])
-    textoutput.textContent = text
+    text = text.trim()
+    if (options.length == 0) {
+      options.push({dest: "End", text: "..."})
+    }
+    textoutput.innerHTML = ""
     optionsoutput.innerHTML = ""
-    for (let option of options) {
-      let button = document.createElement("button")
-      button.textContent = option.text
-      let dest = option.dest
-      button.onclick = () => {
-        if (option.dest.toLowerCase() == "end") {
-          Player.inDialog = false
-          textoutput.innerHTML = ""
-          optionsoutput.innerHTML = ""
-        } else {
-          Player.showRoom(dest)
+
+    let index = 0
+    function putchar() {
+      let char = text[index]
+      textoutput.textContent += char
+      index++
+      let length = 50
+      if (".,!?\n".includes(char)) length = 400
+      if (" ".includes(char)) length = 0
+      if (index < text.length) {
+        setTimeout(putchar, length)
+      } else {
+        for (let option of options) {
+          let button = document.createElement("button")
+          button.textContent = option.text
+          let dest = option.dest
+          button.onclick = () => {
+            if (option.dest.toLowerCase() == "end") {
+              Player.inDialog = false
+              textoutput.innerHTML = ""
+              optionsoutput.innerHTML = ""
+            } else {
+              Player.showRoom(dest)
+            }
+          }
+          optionsoutput.append(button)
         }
       }
-      optionsoutput.append(button)
     }
+    putchar()
   },
   
   update: () => {
+    document.querySelector("#dialog").hidden = !Player.inDialog
     if (!Player.inDialog) {
       let moveX = 0
       let moveY = 0
@@ -71,7 +92,7 @@ let Player = {
         let closestinst
         let closestdist = Infinity
         for (let instance of worlds[world_name].instances) {
-          if (instance.script !== "") {
+          if (instance.script) {
             let dist = (Player.x - instance.x)**2 + (Player.y-instance.y)**2
             if (dist < closestdist) {
               closestinst = instance
