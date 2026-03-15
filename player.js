@@ -27,7 +27,11 @@ let Player = {
     let textoutput = document.querySelector("#dialogtext")
     let optionsoutput = document.querySelector("#dialogoptions")
 
-    let {text, options} = parse_room(dialog_rooms[room])
+    let {text, options} = parse_room(room)
+    if (dialog_room.toLowerCase() == "end") {
+      Player.endDialog()
+      return
+    }
     text = text.trim()
     if (options.length == 0) {
       options.push({dest: "End", text: "..."})
@@ -51,19 +55,20 @@ let Player = {
           button.textContent = option.text
           let dest = option.dest
           button.onclick = () => {
-            if (option.dest.toLowerCase() == "end") {
-              Player.inDialog = false
-              textoutput.innerHTML = ""
-              optionsoutput.innerHTML = ""
-            } else {
-              Player.showRoom(dest)
-            }
+            Player.showRoom(dest)
           }
           optionsoutput.append(button)
         }
       }
     }
     putchar()
+  },
+  endDialog: () => {
+    let textoutput = document.querySelector("#dialogtext")
+    let optionsoutput = document.querySelector("#dialogoptions")
+    Player.inDialog = false
+    textoutput.innerHTML = ""
+    optionsoutput.innerHTML = ""
   },
   
   update: () => {
@@ -104,13 +109,19 @@ let Player = {
           Player.inDialog = true
           console.log(closestinst)
           parse_rooms(closestinst.script)
-          Player.showRoom("Start")
+          let nameoutput = document.querySelector("#dialogname")
+          nameoutput.textContent = dialog_script
+          Player.showRoom("Interact")
         }
       }
       Player.x += moveX
       if (Player.isColliding()) Player.x -= moveX
       Player.y += moveY
       if (Player.isColliding()) Player.y -= moveY
+      if (Player.isColliding()) {
+        Player.x += moveX*0.5
+        Player.y += moveY*0.5
+      }
     }
   },
   draw: () => {

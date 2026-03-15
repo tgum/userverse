@@ -4,9 +4,21 @@
     "fountain": {path: "fountain.png", offset: [107, 150], hitbox: [-100, -60, 105, 0]},
     "stand1": {path: "stand1.png", offset: [60, 158], hitbox: [-60, -45, 60, 0]},
     // bakery
-    "jims.dude": {path: "jims_bakery/dude.png", offset: [45, 175], hitbox: [0, -8, 10, 0]},
+    "jims.door": {path: "none.png", offset: [0, 0], hitbox: [-30, 0, 30, 1]},
+    "jims.dude": {path: "jims_bakery/dude.png", offset: [45, 175], hitbox: [0, -8, 20, 0]},
     "jims.bakery": {path: "jims_bakery/bakery.png", offset: [50, 390], hitbox: [0, -100, 366, 0]},
     "jims.plant": {path: "jims_bakery/plant.png", offset: [16, 245], hitbox: [0, -16, 53, 0]},
+    "jims.ds.props": {path: "jims_bakery/downstairs/props.png", offset: [0, 0]},
+    "jims.ds.walls": {path: "jims_bakery/downstairs/walls.png"},
+    "jims.ds.kitchen": {path: "jims_bakery/downstairs/kitchen.png", offset: [7, 43], hitbox: [0, 0, 236, 52]},
+    "jims.ds.chairleft": {path: "jims_bakery/downstairs/chair_left.png", offset: [8, 52], hitbox: [0, 0, 48, 40]},
+    "jims.ds.chairright": {path: "jims_bakery/downstairs/chair_right.png", offset: [8, 48], hitbox: [0, 0, 49, 40]},
+    "jims.ds.chairup": {path: "jims_bakery/downstairs/chair_up.png", offset: [6, 88], hitbox: [0, -40, 42, 0]},
+    "jims.ds.table": {path: "jims_bakery/downstairs/table.png", offset: [0, 25], hitbox: [0, 0, 124, 80]},
+    "jims.ds.sconecounter": {path: "jims_bakery/downstairs/scone_counter.png", offset: [0, 94], hitbox: [0, -72, 164, 0]},
+    "jims.ds.sconesoncounter": {path: "jims_bakery/downstairs/scones_on_counter.png", offset: [0, 90]},
+    "jims.ds.wallleft": {path: "none.png", offset: [0, 0], hitbox: [0, 0, 35, 480]},
+    "jims.ds.walltop": {path: "none.png", offset: [0, 0], hitbox: [0, 0, 640, 40]},
   },
   worlds: {
     "overworld": {
@@ -14,12 +26,33 @@
         "0,0": "overworld/0_0_town_square.png",
       },
       instances: [
-        {prop: "jims.dude", x: 820, y: 80, script: '## Start\n"buy some scones here theyre so nice plz buy else jim is gonna kill me"\n[End] ill consider ur offer'},
+        {prop: "jims.door", x: 575, y: 60, script: '# Door\n## Interact\n%changeworld jims_bakery_downstairs\n>End'},
+        {prop: "jims.dude", x: 820, y: 80, script: '# Dude\n## Interact\n"buy some scones here theyre so nice plz buy else jim is gonna kill me"\n[End] ill consider ur offer'},
         {prop: "jims.bakery", x: 496, y: 70},
-        {prop: "jims.plant", x: 480, y: 72},
+        {prop: "jims.plant", x: 480, y: 72, script: '# Bush\n## Interact\n"psst...\njust so you know...\nim not a real plant...\nim actually a guy in a pot!"'},
         {prop: "fountain", x: 325, y: 280},
-        {prop: "stand1", x: 70, y: 150, script: '## Start\n?stand1.dontlike >bad\n>good\n## good\n"hi! im a shopkeeper!"\n[asksell] what do you sell\n[beatup] beat them up\n[End] bye\n## asksell\n"i sell various stuff but only to rich people not stupid frogs like you"\n[beatup] beat them up\n[End] leave\n## beatup\n?stand1.dontlike "WHY ARE STILL BEATING ME UP"\n!stand1.dontlike "what the fuck dude stop"\n+stand1.dontlike\n[beatup] continue beating\n[End] leave this poor soul alone\n## bad\n"please go away, i dont wanna pay for an ambulance"\n[beatup] beat them up some more\n[End] they provide nothing of value\n'},
+        {prop: "stand1", x: 70, y: 150, script: '# Vendor\n## Interact\n?stand1.dontlike >bad\n>good\n## good\n"hi! im a shopkeeper!"\n[asksell] what do you sell\n[beatup] beat them up\n[End] bye\n## asksell\n"i sell various stuff but only to rich people not stupid frogs like you"\n[beatup] beat them up\n[End] leave\n## beatup\n?stand1.dontlike "WHY ARE STILL BEATING ME UP"\n!stand1.dontlike "what the fuck dude stop"\n+stand1.dontlike\n[beatup] continue beating\n[End] leave this poor soul alone\n## bad\n"please go away, i dont wanna pay for an ambulance"\n[beatup] beat them up some more\n[End] they provide nothing of value\n'},
       ],
+    },
+    "jims_bakery_downstairs": {
+      backgrounds: {
+        "0,0": "jims_bakery_downstairs/0_0.png",
+      },
+      instances: [
+        {prop: "jims.ds.walls", x: 0, y: 0},
+        // {prop: "jims.ds.props", x: 0, y: 0},
+        {prop: "jims.ds.kitchen", x: 35, y: 62},
+        {prop: "jims.ds.chairleft", x: 74, y: 292},
+        {prop: "jims.ds.chairright", x: 278, y: 295},
+        {prop: "jims.ds.chairup", x: 183, y: 395},
+        {prop: "jims.ds.table", x: 134, y: 267},
+        {prop: "jims.ds.sconecounter", x: 436, y: 338},
+        {prop: "jims.ds.sconesoncounter", x: 480, y: 343},
+
+        {prop: "jims.ds.wallleft", x: 0, y: 0},
+        {prop: "jims.ds.wallleft", x: 600, y: 0},
+        {prop: "jims.ds.walltop", x: 0, y: 0},
+      ]
     }
   }
 }

@@ -1,6 +1,8 @@
 let world_name = "overworld"
 let camera = {x: 0, y: 0}
 
+let DEBUG = true
+
 function preload() {
   load_world()
 }
@@ -15,6 +17,7 @@ function queue_sprite(sprite, x, y, offset=[0, 0]) {
 }
 
 function loop() {
+  DEBUG = mg.isKeyDown("KeyP")
   mg.clear_screen(150, 29, 160)
   Player.update()
   camera.x += Math.floor((Player.x - camera.x) / 10)
@@ -42,11 +45,24 @@ function loop() {
     mg.ctx.globalAlpha = 1;
   }
 
-  for (let sprite of queue) {
-    let x = sprite.x - camera.x
-    let y = sprite.y - camera.y
-    mg.set_fill_color(255, 255, 255)
-    mg.rect(x-3, y-3, 6, 6)
+  if (DEBUG) {
+    for (let sprite of queue) {
+      let x = sprite.x - camera.x
+      let y = sprite.y - camera.y
+      mg.set_fill_color(255, 255, 255)
+      mg.rect(x-3, y-3, 6, 6)
+    }
+    let i = 0
+    mg.ctx.globalAlpha = 0.5;
+    for (let instance of worlds[world_name].instances) {
+      i++
+      let prop = instance.prop
+      mg.set_fill_color(0, 0, i * 50)
+      let x = instance.x
+      let y = instance.y
+      mg.rect(x+prop.hitbox[0] -camera.x, y+prop.hitbox[1]-camera.y, Math.abs(prop.hitbox[0])+prop.hitbox[2], Math.abs(prop.hitbox[1])+prop.hitbox[3])
+    }
+    mg.ctx.globalAlpha = 1
   }
 }
 

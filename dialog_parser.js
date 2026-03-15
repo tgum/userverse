@@ -1,36 +1,16 @@
-let dialog = `
-## Start
-; this is some adventeure?
-yeah im a guy im talking bla bla
-\\???
-[options] go to option tree
-[setvar] set variable
-[unsetvar] unset variable
-
-## setvar
-+var
->Start
-
-## unsetvar
--var
->Start
-
-## options
-?var >skooky
-!var >next
-
-## next
-hiya
-[Start] go bak
-
-## skooky
-skooky
-[Start] go bak
-`
-
 let dialog_variables = {}
+let dialog_functions = {
+  hello: (args, script) => {
+    console.log("hello world,", args)
+  },
+  changeworld: (args, script) => {
+    world_name = args
+  },
+}
 
+let dialog_script = ""
 let dialog_rooms = {}
+let dialog_room = ""
 
 function parse_rooms(dialog) {
   dialog_rooms = {}
@@ -43,6 +23,8 @@ function parse_rooms(dialog) {
       }
       current_room = line.replace(/^##(\s+)?/, "")
       room_text = ""
+    } else if (line.startsWith("#")) {
+      dialog_script = line.replace(/^#(\s+)?/, "")
     } else {
       room_text += line + "\n"
     }
@@ -56,8 +38,13 @@ function validvar(name) {
 }
 
 function parse_room(room) {
+  dialog_room = room
   let line_index = 0
-  let lines = room.split("\n")
+  if (!(dialog_room in dialog_rooms)) {
+    console.log(room, "isnt a real room???")
+    return {text: "", options: []}
+  }
+  let lines = dialog_rooms[room].split("\n")
   let output = ""
   let options = []
 
@@ -97,12 +84,24 @@ function parse_room(room) {
         break
       case ">":
         let jumproom = line.slice(1)
+        dialog_room = jumproom
+        if (!(dialog_room in dialog_rooms)) {
+          console.log(room, "isnt a real room???")
+          return {text: "", options: []}
+        }
         line_index = 0
         lines = dialog_rooms[jumproom].split("\n")
         break
       case "[":
         let [_, dest, text] = line.match(/^\[(.+)\] (.+)$/)
         options.push({text, dest})
+        break
+      case "%":
+        let [__, func, args] = line.match(/^%([\w\d]+) (.*)/)
+        console.log("func", func)
+        if (func in dialog_functions) {
+          dialog_functions[func](args, dialog_script)
+        }
         break
       case "\\":
         line = line.slice(1)
@@ -115,5 +114,3 @@ function parse_room(room) {
   console.log(options)
   return {text: output, options}
 }
-
-parse_rooms(dialog)
