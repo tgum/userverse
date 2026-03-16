@@ -6,6 +6,16 @@ let dialog_functions = {
   changeworld: (args, script) => {
     world_name = args
   },
+  teleportplayer: (args, script) => {
+    let [x, y] = args.split(",")
+    x = +x.trim()
+    y = +y.trim()
+    Player.x = x
+    camera.x = x
+    Player.y = y
+    camera.y = y
+
+  }
 }
 
 let dialog_script = ""

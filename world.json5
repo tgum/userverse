@@ -15,10 +15,11 @@
     "jims.ds.chairright": {path: "jims_bakery/downstairs/chair_right.png", offset: [8, 48], hitbox: [0, 0, 49, 40]},
     "jims.ds.chairup": {path: "jims_bakery/downstairs/chair_up.png", offset: [6, 88], hitbox: [0, -40, 42, 0]},
     "jims.ds.table": {path: "jims_bakery/downstairs/table.png", offset: [0, 25], hitbox: [0, 0, 124, 80]},
-    "jims.ds.sconecounter": {path: "jims_bakery/downstairs/scone_counter.png", offset: [0, 94], hitbox: [0, -72, 164, 0]},
+    "jims.ds.sconecounter": {path: "jims_bakery/downstairs/scone_counter.png", offset: [0, 94], hitbox: [0, -72, 164, 2]},
     "jims.ds.sconesoncounter": {path: "jims_bakery/downstairs/scones_on_counter.png", offset: [0, 90]},
     "jims.ds.wallleft": {path: "none.png", offset: [0, 0], hitbox: [0, 0, 35, 480]},
-    "jims.ds.walltop": {path: "none.png", offset: [0, 0], hitbox: [0, 0, 640, 40]},
+    "jims.ds.walltop": {path: "none.png", offset: [0, 0], hitbox: [0, 0, 640, 35]},
+    "jims.ds.doorway": {path: "none.png", offset: [0, 0], hitbox: [-50, 0, 50, 20]},
   },
   worlds: {
     "overworld": {
@@ -26,7 +27,7 @@
         "0,0": "overworld/0_0_town_square.png",
       },
       instances: [
-        {prop: "jims.door", x: 575, y: 60, script: '# Door\n## Interact\n%changeworld jims_bakery_downstairs\n>End'},
+        {prop: "jims.door", x: 575, y: 60, script: '# Door\n## Interact\n%changeworld jims_bakery_downstairs\n%teleportplayer 150,440\n>End'},
         {prop: "jims.dude", x: 820, y: 80, script: '# Dude\n## Interact\n"buy some scones here theyre so nice plz buy else jim is gonna kill me"\n[End] ill consider ur offer'},
         {prop: "jims.bakery", x: 496, y: 70},
         {prop: "jims.plant", x: 480, y: 72, script: '# Bush\n## Interact\n"psst...\njust so you know...\nim not a real plant...\nim actually a guy in a pot!"'},
@@ -35,6 +36,7 @@
       ],
     },
     "jims_bakery_downstairs": {
+      lock_camera: [320, 240],
       backgrounds: {
         "0,0": "jims_bakery_downstairs/0_0.png",
       },
@@ -51,7 +53,11 @@
 
         {prop: "jims.ds.wallleft", x: 0, y: 0},
         {prop: "jims.ds.wallleft", x: 600, y: 0},
-        {prop: "jims.ds.walltop", x: 0, y: 0},
+        {prop: "jims.ds.walltop", x: 0, y: 5},
+        {prop: "jims.ds.walltop", x: -245, y: 198},
+        {prop: "jims.ds.walltop", x: -540, y: 448},
+        {prop: "jims.ds.walltop", x: 197, y: 448},
+        {prop: "jims.ds.doorway", x: 150, y: 450, script: '# Door\n## Interact\n%changeworld overworld\n%teleportplayer 575,75\n>End'},
       ]
     }
   }

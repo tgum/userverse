@@ -19,6 +19,10 @@ class World {
     for (let instance of data.instances) {
       this.instances.push({prop: props[instance.prop], x: instance.x, y: instance.y, script: instance.script})
     }
+
+    if (data.lock_camera) {
+      this.lock_camera = data.lock_camera
+    }
     
   }
 
@@ -51,6 +55,7 @@ class Prop {
 
 let props = {}
 let worlds = {}
+let parsed_data
 
 function load_world() {
   mg._load_tasks++
@@ -59,16 +64,16 @@ function load_world() {
     .then(r => r.text())
     .then(r => {
       mg._load_tasks--
-      let parsed = JSON5.parse(r)
-      console.log(parsed)
+      parsed_data = JSON5.parse(r)
+      console.log(parsed_data)
 
-      for (let prop_name in parsed.props) {
-        let prop_data = parsed.props[prop_name]
+      for (let prop_name in parsed_data.props) {
+        let prop_data = parsed_data.props[prop_name]
         props[prop_name] = new Prop(prop_data)
       }
 
-      for (let world_name in parsed.worlds) {
-        let world_data = parsed.worlds[world_name]
+      for (let world_name in parsed_data.worlds) {
+        let world_data = parsed_data.worlds[world_name]
         let world = new World(world_data)
 
         worlds[world_name] = world

@@ -20,8 +20,12 @@ function loop() {
   DEBUG = mg.isKeyDown("KeyP")
   mg.clear_screen(150, 29, 160)
   Player.update()
+
   camera.x += Math.floor((Player.x - camera.x) / 10)
   camera.y += Math.floor((Player.y - camera.y) / 10)
+  if (worlds[world_name].lock_camera) {
+    [camera.x, camera.y] = worlds[world_name].lock_camera
+  }
 
   mg.ctx.translate(mg.width/2, mg.height/2);
 

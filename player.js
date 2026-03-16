@@ -6,6 +6,7 @@ let Player = {
   speed: 4,
   inDialog: false,
   skipDialog: false,
+  lastInteraction: 10000,
 
   isColliding() {
     let colliding = false
@@ -72,6 +73,7 @@ let Player = {
   },
   
   update: () => {
+    Player.lastInteraction++
     document.querySelector("#dialog").hidden = !Player.inDialog
     if (!Player.inDialog) {
       let moveX = 0
@@ -105,7 +107,8 @@ let Player = {
             }
           }
         }
-        if (closestdist < 100**2) {
+        if (closestdist < 100**2 && Player.lastInteraction > 20) {
+          Player.lastInteraction = 0
           Player.inDialog = true
           console.log(closestinst)
           parse_rooms(closestinst.script)
