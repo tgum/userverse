@@ -2,6 +2,7 @@ const mg = {}
 
 mg.width = 640
 mg.height = 480
+mg.fps = 60
 
 mg.canvas = document.createElement("canvas")
 mg.canvas.id = "canvas"
@@ -53,7 +54,8 @@ mg._start = function() {
     load()
   }
   //setTimeout(mg._loop, 1000/60)
-  window.requestAnimationFrame(mg._loop)
+  // window.requestAnimationFrame(mg._loop)
+  mg._loop()
 }
 mg._previousTimeStamp = 0
 mg._loop = function(timeStamp) {
@@ -62,7 +64,7 @@ mg._loop = function(timeStamp) {
   if (typeof loop === "function") {
     loop(elapsed)
   }
-  setTimeout(mg._loop, 1000/30)
+  setTimeout(mg._loop, 1000/mg.fps)
   //window.requestAnimationFrame(mg._loop)
 }
 

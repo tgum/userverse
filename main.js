@@ -21,8 +21,8 @@ function loop() {
   mg.clear_screen(150, 29, 160)
   Player.update()
 
-  camera.x += Math.floor((Player.x - camera.x) / 10)
-  camera.y += Math.floor((Player.y - camera.y) / 10)
+  camera.x += Math.round((Player.x - camera.x) / 20)
+  camera.y += Math.round((Player.y - camera.y) / 20)
   if (worlds[world_name].lock_camera) {
     [camera.x, camera.y] = worlds[world_name].lock_camera
   }

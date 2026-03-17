@@ -3,7 +3,7 @@ let Player = {
   y: 0,
   width: 64,
   sprite: load_image("characters/player/player.png"),
-  speed: 4,
+  speed: 2,
   inDialog: false,
   skipDialog: false,
   lastInteraction: 10000,
