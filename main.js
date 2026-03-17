@@ -36,7 +36,7 @@ function loop() {
   worlds[world_name].queue_instances()
   Player.draw()
 
-  queue.sort((a, b) => a.y > b.y)
+  queue.sort((a, b) => a.y - b.y)
   
   for (let sprite of queue) {
     if (Player.y < sprite.y &&
