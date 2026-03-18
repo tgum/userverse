@@ -9,7 +9,7 @@ mg.canvas.id = "canvas"
 mg.canvas.width = mg.width
 mg.canvas.height = mg.height
 document.querySelector("#container").appendChild(mg.canvas)
-mg.ctx = canvas.getContext("2d")
+mg.ctx = mg.canvas.getContext("2d")
 mg.ctx.imageSmoothingEnabled = false
 
 mg._load_tasks = 0

@@ -9,7 +9,9 @@ function load() {
   document.body.append(Interface())
 }
 
+let frame = 0
 function loop() {
+  frame++
   mg.clear_screen(150, 29, 160)
   mg.ctx.translate(mg.width/2+camera.x, mg.height/2+camera.y);
 
@@ -37,6 +39,7 @@ function loop() {
   
   if (state.selectedProp != null) {
     let prop = new Prop(state.propData)
+    prop.frame = frame
     prop.queue_draw(0, 0)
     
     mg.ctx.globalAlpha = 1;
@@ -63,16 +66,52 @@ const state = createState({
   propData: {},
 })
 
-function PropSelector() {
-  let view = div({style: {float: "right"}})
-  for (let prop in props) {
-    console.log(prop)
-    let b = button({
-      style: {display: "block"},
-      onclick: () => {state.selectedProp = prop}
-    }, prop)
-    view.append(b)
+function PropButton(name) {
+  return button({
+    style: {display: "block"},
+    onclick: () => {
+      console.log(name)
+      state.selectedProp = name
+    }
+  }, name)
+}
+function PropContainer(props, nameprefix, name) {
+  let prefixes = {}
+  let view = details({style: {marginLeft: "1em"}}, summary(name))
+  for (let propname in props) {
+    let prop = props[propname]
+    let result = propname.match(/^(.+?)\.(.+)$/)
+    if (!result) {
+      let name = propname
+      if (nameprefix) {
+        name = nameprefix+name
+      }
+      view.append(PropButton(name))
+    } else {
+      let prefix = result[1]
+      let rest = result[2]
+      if (prefixes[prefix] == undefined) {
+        prefixes[prefix] = {}
+      }
+      prefixes[prefix][rest] = prop
+    }
   }
+  for (let prefix in prefixes) {
+    view.append(PropContainer(prefixes[prefix], nameprefix + prefix + ".", prefix))
+  }
+  console.log(prefixes)
+  return view
+}
+function PropSelector() {
+  let view = div({style: {float: "right"}}, PropContainer(props, "", "props"))
+  // for (let prop in props) {
+  //   console.log(prop)
+  //   let b = button({
+  //     style: {display: "block"},
+  //     onclick: () => {state.selectedProp = prop}
+  //   }, prop)
+  //   view.append(b)
+  // }
   return view
 }
 
@@ -89,7 +128,6 @@ function ValueEditor(array, index, callback=()=>{}) {
   })
   return i
 }
-
 function OffsetEditor() {
   let x = ValueEditor(state.propData.offset, 0, (pv, nv) => {
     state.propData.hitbox[0] += pv - nv
@@ -115,9 +153,9 @@ function HitboxEditor() {
 }
 let updateoutput
 function PropEditor(prop) {
-  let output = textarea(JSON5.stringify(state.propData))
+  let output = textarea({rows: 4, cols: 60}, JSON5.stringify(state.propData))
   updateoutput = () => {
-    output.textContent = JSON5.stringify(state.propData)
+    output.textContent = JSON5.stringify(state.propData) + ","
   }
   return div(
     "offset", OffsetEditor(), br(),

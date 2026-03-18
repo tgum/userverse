@@ -70,6 +70,7 @@ let Player = {
     Player.inDialog = false
     textoutput.innerHTML = ""
     optionsoutput.innerHTML = ""
+    dialog_inst = null
   },
   
   update: () => {
@@ -111,6 +112,7 @@ let Player = {
           Player.lastInteraction = 0
           Player.inDialog = true
           console.log(closestinst)
+          dialog_inst = closestinst
           parse_rooms(closestinst.script)
           let nameoutput = document.querySelector("#dialogname")
           nameoutput.textContent = dialog_script

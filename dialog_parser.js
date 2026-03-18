@@ -1,12 +1,12 @@
 let dialog_variables = {}
 let dialog_functions = {
-  hello: (args, script) => {
+  hello: args => {
     console.log("hello world,", args)
   },
-  changeworld: (args, script) => {
+  changeworld: args => {
     world_name = args
   },
-  teleportplayer: (args, script) => {
+  teleportplayer: args => {
     let [x, y] = args.split(",")
     x = +x.trim()
     y = +y.trim()
@@ -14,13 +14,16 @@ let dialog_functions = {
     camera.x = x
     Player.y = y
     camera.y = y
-
+  },
+  setprop: args => {
+    dialog_inst.prop = props[args.trim()]
   }
 }
 
 let dialog_script = ""
 let dialog_rooms = {}
 let dialog_room = ""
+let dialog_inst = null
 
 function parse_rooms(dialog) {
   dialog_rooms = {}

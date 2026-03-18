@@ -44,11 +44,24 @@ class World {
 class Prop {
   constructor(data) {
     this.sprite = load_image("props/" + data.path)
+    this.animation = []
+    if (data.animation) {
+      for (let path of data.animation) {
+        this.animation.push(load_image("props/" + path))
+      }
+    }
+    this.frame = 0
+    this.framelength = data.framelength || 30
     this.offset = data.offset || [0, 0]
     this.hitbox = data.hitbox || [0, 0, 0, 0]
   }
 
   queue_draw(x, y) {
+    this.frame++
+    if (this.animation.length > 0) {
+      this.frame = this.frame % (this.framelength * this.animation.length)
+      this.sprite = this.animation[Math.floor(this.frame / this.framelength)]
+    }
     queue_sprite(this.sprite, x, y, this.offset)
   }
 }
